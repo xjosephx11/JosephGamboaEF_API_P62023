@@ -13,55 +13,55 @@ namespace JosephGamboaEF_API_P62023.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Apikey]
-    public class UserRolesController : ControllerBase
+    public class AsksController : ControllerBase
     {
         private readonly AnswersDBContext _context;
 
-        public UserRolesController(AnswersDBContext context)
+        public AsksController(AnswersDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserRoles
+        // GET: api/Asks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
+        public async Task<ActionResult<IEnumerable<Ask>>> GetAsks()
         {
-          if (_context.UserRoles == null)
+          if (_context.Asks == null)
           {
               return NotFound();
           }
-            return await _context.UserRoles.ToListAsync();
+            return await _context.Asks.ToListAsync();
         }
 
-        // GET: api/UserRoles/5
+        // GET: api/Asks/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserRole>> GetUserRole(int id)
+        public async Task<ActionResult<Ask>> GetAsk(long id)
         {
-          if (_context.UserRoles == null)
+          if (_context.Asks == null)
           {
               return NotFound();
           }
-            var userRole = await _context.UserRoles.FindAsync(id);
+            var ask = await _context.Asks.FindAsync(id);
 
-            if (userRole == null)
+            if (ask == null)
             {
                 return NotFound();
             }
 
-            return userRole;
+            return ask;
         }
 
-        // PUT: api/UserRoles/5
+        // PUT: api/Asks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserRole(int id, UserRole userRole)
+        public async Task<IActionResult> PutAsk(long id, Ask ask)
         {
-            if (id != userRole.UserRoleId)
+            if (id != ask.AskId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userRole).State = EntityState.Modified;
+            _context.Entry(ask).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace JosephGamboaEF_API_P62023.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserRoleExists(id))
+                if (!AskExists(id))
                 {
                     return NotFound();
                 }
@@ -82,26 +82,26 @@ namespace JosephGamboaEF_API_P62023.Controllers
             return NoContent();
         }
 
-        // POST: api/UserRoles
+        // POST: api/Asks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
+        public async Task<ActionResult<Ask>> PostAsk(Ask ask)
         {
-          if (_context.UserRoles == null)
+          if (_context.Asks == null)
           {
-              return Problem("Entity set 'AnswersDBContext.UserRoles'  is null.");
+              return Problem("Entity set 'AnswersDBContext.Asks'  is null.");
           }
-            _context.UserRoles.Add(userRole);
+            _context.Asks.Add(ask);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserRole", new { id = userRole.UserRoleId }, userRole);
+            return CreatedAtAction("GetAsk", new { id = ask.AskId }, ask);
         }
 
         
 
-        private bool UserRoleExists(int id)
+        private bool AskExists(long id)
         {
-            return (_context.UserRoles?.Any(e => e.UserRoleId == id)).GetValueOrDefault();
+            return (_context.Asks?.Any(e => e.AskId == id)).GetValueOrDefault();
         }
     }
 }

@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JosephGamboaEF_API_P62023.Models;
+using JosephGamboaEF_API_P62023.Attributes;
+using JosephGamboaEF_API_P62023.ModelsDTOs;
+using System.Threading.Tasks.Dataflow;
 
 namespace JosephGamboaEF_API_P62023.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Apikey]
     public class UsersController : ControllerBase
     {
         private readonly AnswersDBContext _context;
@@ -19,6 +23,20 @@ namespace JosephGamboaEF_API_P62023.Controllers
         {
             _context = context;
         }
+
+        [HttpGet("ValidateLogin")]
+        public async Task<ActionResult<User>> ValidateLogin(string username, string password)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync
+                (e => e.UserName.Equals(username) && e.UserPassword == password);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        
 
         // GET: api/Users
         [HttpGet]
@@ -48,6 +66,8 @@ namespace JosephGamboaEF_API_P62023.Controllers
 
             return user;
         }
+
+        
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -95,25 +115,25 @@ namespace JosephGamboaEF_API_P62023.Controllers
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            if (_context.Users == null)
-            {
-                return NotFound();
-            }
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/Users/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteUser(int id)
+        //{
+        //    if (_context.Users == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var user = await _context.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+        //    _context.Users.Remove(user);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         private bool UserExists(int id)
         {

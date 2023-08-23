@@ -13,55 +13,56 @@ namespace JosephGamboaEF_API_P62023.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Apikey]
-    public class UserRolesController : ControllerBase
+
+    public class ChatsController : ControllerBase
     {
         private readonly AnswersDBContext _context;
 
-        public UserRolesController(AnswersDBContext context)
+        public ChatsController(AnswersDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserRoles
+        // GET: api/Chats
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
+        public async Task<ActionResult<IEnumerable<Chat>>> GetChats()
         {
-          if (_context.UserRoles == null)
+          if (_context.Chats == null)
           {
               return NotFound();
           }
-            return await _context.UserRoles.ToListAsync();
+            return await _context.Chats.ToListAsync();
         }
 
-        // GET: api/UserRoles/5
+        // GET: api/Chats/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserRole>> GetUserRole(int id)
+        public async Task<ActionResult<Chat>> GetChat(long id)
         {
-          if (_context.UserRoles == null)
+          if (_context.Chats == null)
           {
               return NotFound();
           }
-            var userRole = await _context.UserRoles.FindAsync(id);
+            var chat = await _context.Chats.FindAsync(id);
 
-            if (userRole == null)
+            if (chat == null)
             {
                 return NotFound();
             }
 
-            return userRole;
+            return chat;
         }
 
-        // PUT: api/UserRoles/5
+        // PUT: api/Chats/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserRole(int id, UserRole userRole)
+        public async Task<IActionResult> PutChat(long id, Chat chat)
         {
-            if (id != userRole.UserRoleId)
+            if (id != chat.ChatId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userRole).State = EntityState.Modified;
+            _context.Entry(chat).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +70,7 @@ namespace JosephGamboaEF_API_P62023.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserRoleExists(id))
+                if (!ChatExists(id))
                 {
                     return NotFound();
                 }
@@ -82,26 +83,26 @@ namespace JosephGamboaEF_API_P62023.Controllers
             return NoContent();
         }
 
-        // POST: api/UserRoles
+        // POST: api/Chats
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
+        public async Task<ActionResult<Chat>> PostChat(Chat chat)
         {
-          if (_context.UserRoles == null)
+          if (_context.Chats == null)
           {
-              return Problem("Entity set 'AnswersDBContext.UserRoles'  is null.");
+              return Problem("Entity set 'AnswersDBContext.Chats'  is null.");
           }
-            _context.UserRoles.Add(userRole);
+            _context.Chats.Add(chat);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserRole", new { id = userRole.UserRoleId }, userRole);
+            return CreatedAtAction("GetChat", new { id = chat.ChatId }, chat);
         }
 
         
 
-        private bool UserRoleExists(int id)
+        private bool ChatExists(long id)
         {
-            return (_context.UserRoles?.Any(e => e.UserRoleId == id)).GetValueOrDefault();
+            return (_context.Chats?.Any(e => e.ChatId == id)).GetValueOrDefault();
         }
     }
 }

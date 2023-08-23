@@ -13,55 +13,55 @@ namespace JosephGamboaEF_API_P62023.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Apikey]
-    public class UserRolesController : ControllerBase
+    public class LikesController : ControllerBase
     {
         private readonly AnswersDBContext _context;
 
-        public UserRolesController(AnswersDBContext context)
+        public LikesController(AnswersDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserRoles
+        // GET: api/Likes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
+        public async Task<ActionResult<IEnumerable<Like>>> GetLikes()
         {
-          if (_context.UserRoles == null)
+          if (_context.Likes == null)
           {
               return NotFound();
           }
-            return await _context.UserRoles.ToListAsync();
+            return await _context.Likes.ToListAsync();
         }
 
-        // GET: api/UserRoles/5
+        // GET: api/Likes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserRole>> GetUserRole(int id)
+        public async Task<ActionResult<Like>> GetLike(long id)
         {
-          if (_context.UserRoles == null)
+          if (_context.Likes == null)
           {
               return NotFound();
           }
-            var userRole = await _context.UserRoles.FindAsync(id);
+            var like = await _context.Likes.FindAsync(id);
 
-            if (userRole == null)
+            if (like == null)
             {
                 return NotFound();
             }
 
-            return userRole;
+            return like;
         }
 
-        // PUT: api/UserRoles/5
+        // PUT: api/Likes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserRole(int id, UserRole userRole)
+        public async Task<IActionResult> PutLike(long id, Like like)
         {
-            if (id != userRole.UserRoleId)
+            if (id != like.LikeId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userRole).State = EntityState.Modified;
+            _context.Entry(like).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace JosephGamboaEF_API_P62023.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserRoleExists(id))
+                if (!LikeExists(id))
                 {
                     return NotFound();
                 }
@@ -82,26 +82,26 @@ namespace JosephGamboaEF_API_P62023.Controllers
             return NoContent();
         }
 
-        // POST: api/UserRoles
+        // POST: api/Likes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
+        public async Task<ActionResult<Like>> PostLike(Like like)
         {
-          if (_context.UserRoles == null)
+          if (_context.Likes == null)
           {
-              return Problem("Entity set 'AnswersDBContext.UserRoles'  is null.");
+              return Problem("Entity set 'AnswersDBContext.Likes'  is null.");
           }
-            _context.UserRoles.Add(userRole);
+            _context.Likes.Add(like);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserRole", new { id = userRole.UserRoleId }, userRole);
+            return CreatedAtAction("GetLike", new { id = like.LikeId }, like);
         }
 
         
 
-        private bool UserRoleExists(int id)
+        private bool LikeExists(long id)
         {
-            return (_context.UserRoles?.Any(e => e.UserRoleId == id)).GetValueOrDefault();
+            return (_context.Likes?.Any(e => e.LikeId == id)).GetValueOrDefault();
         }
     }
 }

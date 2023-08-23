@@ -13,55 +13,55 @@ namespace JosephGamboaEF_API_P62023.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Apikey]
-    public class UserRolesController : ControllerBase
+    public class GeneralsController : ControllerBase
     {
         private readonly AnswersDBContext _context;
 
-        public UserRolesController(AnswersDBContext context)
+        public GeneralsController(AnswersDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserRoles
+        // GET: api/Generals
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
+        public async Task<ActionResult<IEnumerable<General>>> GetGenerals()
         {
-          if (_context.UserRoles == null)
+          if (_context.Generals == null)
           {
               return NotFound();
           }
-            return await _context.UserRoles.ToListAsync();
+            return await _context.Generals.ToListAsync();
         }
 
-        // GET: api/UserRoles/5
+        // GET: api/Generals/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserRole>> GetUserRole(int id)
+        public async Task<ActionResult<General>> GetGeneral(int id)
         {
-          if (_context.UserRoles == null)
+          if (_context.Generals == null)
           {
               return NotFound();
           }
-            var userRole = await _context.UserRoles.FindAsync(id);
+            var general = await _context.Generals.FindAsync(id);
 
-            if (userRole == null)
+            if (general == null)
             {
                 return NotFound();
             }
 
-            return userRole;
+            return general;
         }
 
-        // PUT: api/UserRoles/5
+        // PUT: api/Generals/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserRole(int id, UserRole userRole)
+        public async Task<IActionResult> PutGeneral(int id, General general)
         {
-            if (id != userRole.UserRoleId)
+            if (id != general.Idconfig)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userRole).State = EntityState.Modified;
+            _context.Entry(general).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace JosephGamboaEF_API_P62023.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserRoleExists(id))
+                if (!GeneralExists(id))
                 {
                     return NotFound();
                 }
@@ -82,26 +82,26 @@ namespace JosephGamboaEF_API_P62023.Controllers
             return NoContent();
         }
 
-        // POST: api/UserRoles
+        // POST: api/Generals
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
+        public async Task<ActionResult<General>> PostGeneral(General general)
         {
-          if (_context.UserRoles == null)
+          if (_context.Generals == null)
           {
-              return Problem("Entity set 'AnswersDBContext.UserRoles'  is null.");
+              return Problem("Entity set 'AnswersDBContext.Generals'  is null.");
           }
-            _context.UserRoles.Add(userRole);
+            _context.Generals.Add(general);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserRole", new { id = userRole.UserRoleId }, userRole);
+            return CreatedAtAction("GetGeneral", new { id = general.Idconfig }, general);
         }
 
         
 
-        private bool UserRoleExists(int id)
+        private bool GeneralExists(int id)
         {
-            return (_context.UserRoles?.Any(e => e.UserRoleId == id)).GetValueOrDefault();
+            return (_context.Generals?.Any(e => e.Idconfig == id)).GetValueOrDefault();
         }
     }
 }

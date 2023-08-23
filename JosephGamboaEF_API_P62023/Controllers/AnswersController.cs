@@ -13,55 +13,55 @@ namespace JosephGamboaEF_API_P62023.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Apikey]
-    public class UserRolesController : ControllerBase
+    public class AnswersController : ControllerBase
     {
         private readonly AnswersDBContext _context;
 
-        public UserRolesController(AnswersDBContext context)
+        public AnswersController(AnswersDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserRoles
+        // GET: api/Answers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
+        public async Task<ActionResult<IEnumerable<Answer>>> GetAnswers()
         {
-          if (_context.UserRoles == null)
+          if (_context.Answers == null)
           {
               return NotFound();
           }
-            return await _context.UserRoles.ToListAsync();
+            return await _context.Answers.ToListAsync();
         }
 
-        // GET: api/UserRoles/5
+        // GET: api/Answers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserRole>> GetUserRole(int id)
+        public async Task<ActionResult<Answer>> GetAnswer(long id)
         {
-          if (_context.UserRoles == null)
+          if (_context.Answers == null)
           {
               return NotFound();
           }
-            var userRole = await _context.UserRoles.FindAsync(id);
+            var answer = await _context.Answers.FindAsync(id);
 
-            if (userRole == null)
+            if (answer == null)
             {
                 return NotFound();
             }
 
-            return userRole;
+            return answer;
         }
 
-        // PUT: api/UserRoles/5
+        // PUT: api/Answers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserRole(int id, UserRole userRole)
+        public async Task<IActionResult> PutAnswer(long id, Answer answer)
         {
-            if (id != userRole.UserRoleId)
+            if (id != answer.AnswerId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userRole).State = EntityState.Modified;
+            _context.Entry(answer).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace JosephGamboaEF_API_P62023.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserRoleExists(id))
+                if (!AnswerExists(id))
                 {
                     return NotFound();
                 }
@@ -82,26 +82,26 @@ namespace JosephGamboaEF_API_P62023.Controllers
             return NoContent();
         }
 
-        // POST: api/UserRoles
+        // POST: api/Answers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
+        public async Task<ActionResult<Answer>> PostAnswer(Answer answer)
         {
-          if (_context.UserRoles == null)
+          if (_context.Answers == null)
           {
-              return Problem("Entity set 'AnswersDBContext.UserRoles'  is null.");
+              return Problem("Entity set 'AnswersDBContext.Answers'  is null.");
           }
-            _context.UserRoles.Add(userRole);
+            _context.Answers.Add(answer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserRole", new { id = userRole.UserRoleId }, userRole);
+            return CreatedAtAction("GetAnswer", new { id = answer.AnswerId }, answer);
         }
 
         
 
-        private bool UserRoleExists(int id)
+        private bool AnswerExists(long id)
         {
-            return (_context.UserRoles?.Any(e => e.UserRoleId == id)).GetValueOrDefault();
+            return (_context.Answers?.Any(e => e.AnswerId == id)).GetValueOrDefault();
         }
     }
 }

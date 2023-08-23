@@ -13,55 +13,55 @@ namespace JosephGamboaEF_API_P62023.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Apikey]
-    public class UserRolesController : ControllerBase
+    public class CountriesController : ControllerBase
     {
         private readonly AnswersDBContext _context;
 
-        public UserRolesController(AnswersDBContext context)
+        public CountriesController(AnswersDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserRoles
+        // GET: api/Countries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
+        public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
         {
-          if (_context.UserRoles == null)
+          if (_context.Countries == null)
           {
               return NotFound();
           }
-            return await _context.UserRoles.ToListAsync();
+            return await _context.Countries.ToListAsync();
         }
 
-        // GET: api/UserRoles/5
+        // GET: api/Countries/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserRole>> GetUserRole(int id)
+        public async Task<ActionResult<Country>> GetCountry(int id)
         {
-          if (_context.UserRoles == null)
+          if (_context.Countries == null)
           {
               return NotFound();
           }
-            var userRole = await _context.UserRoles.FindAsync(id);
+            var country = await _context.Countries.FindAsync(id);
 
-            if (userRole == null)
+            if (country == null)
             {
                 return NotFound();
             }
 
-            return userRole;
+            return country;
         }
 
-        // PUT: api/UserRoles/5
+        // PUT: api/Countries/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserRole(int id, UserRole userRole)
+        public async Task<IActionResult> PutCountry(int id, Country country)
         {
-            if (id != userRole.UserRoleId)
+            if (id != country.CountryId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userRole).State = EntityState.Modified;
+            _context.Entry(country).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace JosephGamboaEF_API_P62023.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserRoleExists(id))
+                if (!CountryExists(id))
                 {
                     return NotFound();
                 }
@@ -82,26 +82,26 @@ namespace JosephGamboaEF_API_P62023.Controllers
             return NoContent();
         }
 
-        // POST: api/UserRoles
+        // POST: api/Countries
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
+        public async Task<ActionResult<Country>> PostCountry(Country country)
         {
-          if (_context.UserRoles == null)
+          if (_context.Countries == null)
           {
-              return Problem("Entity set 'AnswersDBContext.UserRoles'  is null.");
+              return Problem("Entity set 'AnswersDBContext.Countries'  is null.");
           }
-            _context.UserRoles.Add(userRole);
+            _context.Countries.Add(country);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserRole", new { id = userRole.UserRoleId }, userRole);
+            return CreatedAtAction("GetCountry", new { id = country.CountryId }, country);
         }
 
         
 
-        private bool UserRoleExists(int id)
+        private bool CountryExists(int id)
         {
-            return (_context.UserRoles?.Any(e => e.UserRoleId == id)).GetValueOrDefault();
+            return (_context.Countries?.Any(e => e.CountryId == id)).GetValueOrDefault();
         }
     }
 }

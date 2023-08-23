@@ -13,55 +13,55 @@ namespace JosephGamboaEF_API_P62023.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Apikey]
-    public class UserRolesController : ControllerBase
+    public class AskStatusController : ControllerBase
     {
         private readonly AnswersDBContext _context;
 
-        public UserRolesController(AnswersDBContext context)
+        public AskStatusController(AnswersDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserRoles
+        // GET: api/AskStatus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
+        public async Task<ActionResult<IEnumerable<AskStatus>>> GetAskStatuses()
         {
-          if (_context.UserRoles == null)
+          if (_context.AskStatuses == null)
           {
               return NotFound();
           }
-            return await _context.UserRoles.ToListAsync();
+            return await _context.AskStatuses.ToListAsync();
         }
 
-        // GET: api/UserRoles/5
+        // GET: api/AskStatus/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserRole>> GetUserRole(int id)
+        public async Task<ActionResult<AskStatus>> GetAskStatus(int id)
         {
-          if (_context.UserRoles == null)
+          if (_context.AskStatuses == null)
           {
               return NotFound();
           }
-            var userRole = await _context.UserRoles.FindAsync(id);
+            var askStatus = await _context.AskStatuses.FindAsync(id);
 
-            if (userRole == null)
+            if (askStatus == null)
             {
                 return NotFound();
             }
 
-            return userRole;
+            return askStatus;
         }
 
-        // PUT: api/UserRoles/5
+        // PUT: api/AskStatus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserRole(int id, UserRole userRole)
+        public async Task<IActionResult> PutAskStatus(int id, AskStatus askStatus)
         {
-            if (id != userRole.UserRoleId)
+            if (id != askStatus.AskStatusId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userRole).State = EntityState.Modified;
+            _context.Entry(askStatus).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace JosephGamboaEF_API_P62023.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserRoleExists(id))
+                if (!AskStatusExists(id))
                 {
                     return NotFound();
                 }
@@ -82,26 +82,26 @@ namespace JosephGamboaEF_API_P62023.Controllers
             return NoContent();
         }
 
-        // POST: api/UserRoles
+        // POST: api/AskStatus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
+        public async Task<ActionResult<AskStatus>> PostAskStatus(AskStatus askStatus)
         {
-          if (_context.UserRoles == null)
+          if (_context.AskStatuses == null)
           {
-              return Problem("Entity set 'AnswersDBContext.UserRoles'  is null.");
+              return Problem("Entity set 'AnswersDBContext.AskStatuses'  is null.");
           }
-            _context.UserRoles.Add(userRole);
+            _context.AskStatuses.Add(askStatus);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserRole", new { id = userRole.UserRoleId }, userRole);
+            return CreatedAtAction("GetAskStatus", new { id = askStatus.AskStatusId }, askStatus);
         }
 
         
 
-        private bool UserRoleExists(int id)
+        private bool AskStatusExists(int id)
         {
-            return (_context.UserRoles?.Any(e => e.UserRoleId == id)).GetValueOrDefault();
+            return (_context.AskStatuses?.Any(e => e.AskStatusId == id)).GetValueOrDefault();
         }
     }
 }
